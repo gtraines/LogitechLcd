@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("LgLcdG13.Adapter")]
+[assembly: AssemblyTitle("LgLcd13.Instruments")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("LgLcdG13.Adapter")]
+[assembly: AssemblyProduct("LgLcd13.Instruments")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("2f01ddea-6ac0-4453-b98c-5c4b5c40fb6c")]
+[assembly: Guid("e8e56aa0-0b55-420b-bf0b-8d80ff04fea6")]
 
 // Version information for an assembly consists of the following four values:
 //

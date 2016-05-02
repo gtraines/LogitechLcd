@@ -1,0 +1,18 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="LgLcd13.Instruments.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Panel1" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">BRNG: [ {0} ]  ELEV:  [ {1} ] AGL;CLMB: [ {0} ]  TORQ: [ {1} ];;SPEED A: [ {0} ] G: [ {1} ] MPH</Value>
+    </Setting>
+    <Setting Name="Panel2" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Something goes here</Value>
+    </Setting>
+    <Setting Name="RefreshInterval" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">300</Value>
+    </Setting>
+    <Setting Name="TestCount" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">270</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

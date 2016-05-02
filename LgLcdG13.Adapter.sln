@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LgLcdG13.Adapter", "LgLcd.Adapter\LgLcdG13.Adapter.csproj", "{2F01DDEA-6AC0-4453-B98C-5C4B5C40FB6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LgLcdG13.Adapter.Test", "LgLcd.Adapter.Test\LgLcdG13.Adapter.Test.csproj", "{C4BA2C33-6029-419F-99E4-4CC50AA1C778}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LgLcd13.Instruments", "LgLcd13.Instruments\LgLcd13.Instruments.csproj", "{E8E56AA0-0B55-420B-BF0B-8D80FF04FEA6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2F01DDEA-6AC0-4453-B98C-5C4B5C40FB6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F01DDEA-6AC0-4453-B98C-5C4B5C40FB6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F01DDEA-6AC0-4453-B98C-5C4B5C40FB6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F01DDEA-6AC0-4453-B98C-5C4B5C40FB6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4BA2C33-6029-419F-99E4-4CC50AA1C778}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4BA2C33-6029-419F-99E4-4CC50AA1C778}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4BA2C33-6029-419F-99E4-4CC50AA1C778}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4BA2C33-6029-419F-99E4-4CC50AA1C778}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8E56AA0-0B55-420B-BF0B-8D80FF04FEA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8E56AA0-0B55-420B-BF0B-8D80FF04FEA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8E56AA0-0B55-420B-BF0B-8D80FF04FEA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8E56AA0-0B55-420B-BF0B-8D80FF04FEA6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

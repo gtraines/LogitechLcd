@@ -4,9 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LgLcd.Adapter
+namespace LgLcdG13.Adapter
 {
-    public class Class1
+    public class Device
     {
+        public Device()
+        {
+         
+        }
     }
 }
