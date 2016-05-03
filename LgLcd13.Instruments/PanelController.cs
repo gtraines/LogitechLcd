@@ -11,11 +11,15 @@ namespace LgLcd13.Instruments
 {
     public class PanelController
     {
+        public G13Device G13Device { get; set; }
+        public PanelController()
+        {
+            G13Device = new G13Device();
+        }
         public bool RunTest()
         {
-            InitLcdDisplay();
-            var scheme = Properties.Settings.Default.Panel1;
-            var panel = InstrumentBuilder.CreateInstrumentPanel(scheme);
+            var scheme1 = Properties.Settings.Default.Panel1;
+            var panel = InstrumentBuilder.CreateInstrumentPanel(scheme1);
 
             for (var i = 0; i <= Properties.Settings.Default.TestCount; i++)
             {
@@ -52,7 +56,7 @@ namespace LgLcd13.Instruments
                     
                 });
 
-                Display.UpdateDisplay(lineStrings);
+                G13Device.Display.UpdateDisplay(lineStrings);
                 return true;
             }
             catch (Exception)
@@ -61,22 +65,5 @@ namespace LgLcd13.Instruments
                 return false;
             }
         }
-
-        public bool InitLcdDisplay()
-        {
-            try
-            {
-                this.Connection = new Connection();
-
-                return true;
-            }
-            catch (Exception)
-            {
-                
-                return false;
-            }
-        }
-
-        public Connection Connection { get; set; }
     }
 }

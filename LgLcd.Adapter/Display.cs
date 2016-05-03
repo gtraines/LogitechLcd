@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace LgLcdG13.Adapter
 {
-    public static class Display
+    public class Display
     {
 
-        public static bool UpdateDisplay(List<string> lines)
+        public bool UpdateDisplay(List<string> lines)
         {
             try
             {
