@@ -33,19 +33,19 @@ namespace LgLcdG13.Adapter
 
         public int CheckButtons()
         {
-            if (Proxy.LogiLcdIsButtonPressed(Proxy.LOGI_LCD_MONO_BUTTON_0))
+            if (LcdProxy.LogiLcdIsButtonPressed(LcdProxy.LOGI_LCD_MONO_BUTTON_0))
             {
                 return Button0Handler();
             }
-            else if (Proxy.LogiLcdIsButtonPressed(Proxy.LOGI_LCD_MONO_BUTTON_1))
+            else if (LcdProxy.LogiLcdIsButtonPressed(LcdProxy.LOGI_LCD_MONO_BUTTON_1))
             {
                 return Button1Handler();
             }
-            else if (Proxy.LogiLcdIsButtonPressed(Proxy.LOGI_LCD_MONO_BUTTON_2))
+            else if (LcdProxy.LogiLcdIsButtonPressed(LcdProxy.LOGI_LCD_MONO_BUTTON_2))
             {
                 return Button2Handler();
             }
-            else if (Proxy.LogiLcdIsButtonPressed(Proxy.LOGI_LCD_MONO_BUTTON_3))
+            else if (LcdProxy.LogiLcdIsButtonPressed(LcdProxy.LOGI_LCD_MONO_BUTTON_3))
             {
                 return Button3Handler();
             }

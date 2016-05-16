@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Specialized;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace LgLcdG13.Adapter
 {
-    public static class Proxy
+    public static class LcdProxy
     {
-        //LCD SDK 
+        //LCD SDK
         public const int LOGI_LCD_MONO_BUTTON_0 = (0x00000001);
+
         public const int LOGI_LCD_MONO_BUTTON_1 = (0x00000002);
         public const int LOGI_LCD_MONO_BUTTON_2 = (0x00000004);
         public const int LOGI_LCD_MONO_BUTTON_3 = (0x00000008);
@@ -19,214 +20,7 @@ namespace LgLcdG13.Adapter
         public const int LOGI_LCD_MONO_HEIGHT = 43;
         public const int LOGI_LCD_TYPE_MONO = (0x00000001);
 
-
-        /// <summary>
-        /// Function that should be called when the user wants to configure your 
-        /// application. If no configuration panel is provided or needed, 
-        /// leave this parameter NULL.
-        /// </summary>
-        /// <param name="connection">Current connection</param>
-        /// <param name="pContext">Current context</param>
-        /// <returns></returns>
-        public delegate int lgLcdOnConfigureCB(int connection, IntPtr pContext);
-        /// <summary>
-        /// Function that should be called when the state of the soft buttons changes. 
-        /// If no notification is needed, leave this parameter NULL.
-        /// </summary>
-        /// <param name="device">Device sending buttons</param>
-        /// <param name="dwButtons">Mask showing which buttons were pressed</param>
-        /// <param name="pContext">Current context</param>
-        /// <returns></returns>
-		public delegate int lgLcdOnSoftButtonsCB(int device, int dwButtons, IntPtr pContext);
-
-        /// <summary>
-        /// The lgLcdDeviceDesc structure describes the properties of an attached device. 
-        /// This information is returned through a call to lgLcdEnumerate().
-        /// </summary>
-		[StructLayout(LayoutKind.Sequential)]
-        public struct lgLcdDeviceDesc
-        {
-            /// <summary>
-            /// Specifies the width of the display in pixels.
-            /// </summary>
-			public int Width;
-            /// <summary>
-            /// Specifies the height of the display in pixels.
-            /// </summary>
-            public int Height;
-            /// <summary>
-            /// Specifies the depth of the bitmap in bits per pixel.
-            /// </summary>
-			public int Bpp;
-            /// <summary>
-            /// Specifies the number of soft buttons that the device has.
-            /// </summary>
-            public int NumSoftButtons;
-        }
-
-        /// <summary>
-        /// The lgLcdBitmapHeader exists at the beginning of any bitmap structure 
-        /// defined in lgLcd. Following the header is the actual bitmap as an array 
-        /// of bytes, as illustrated by lgLcdBitmap160x43x1.
-        /// </summary>
-		[StructLayout(LayoutKind.Sequential)]
-        public struct lgLcdBitmapHeader
-        {
-            /// <summary>
-            /// Specifies the format of the structure following the header. 
-            /// Currently, only LGLCD_BMP_FORMAT_160x43x1 is supported
-            /// </summary>
-    		public uint Format;
-        }
-
-        /// <summary>
-        /// 160x43x1 bitmap.  This includes a header and an array
-        /// of bytes (1 for each pixel.)
-        /// </summary>
-		[StructLayout(LayoutKind.Sequential)]
-        public struct lgLcdBitmap160x43x1
-        {
-            /// <summary>
-            /// Header information telling what kind of bitmap this structure
-            /// represents (currently only one format exists, see lgLcdBitmapHeader.)
-            /// </summary>
-			public lgLcdBitmapHeader hdr;
-            /// <summary>
-            /// Contains the display bitmap with 160x43 pixels. Every byte represents
-            /// one pixel, with &gt;=128 being “on” and &lt;128 being “off”.
-            /// </summary>
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 6880)]
-            public byte[] pixels;
-        }
-
-        /// <summary>
-        /// The lgLcdConfigureContext is part of the lgLcdConnectContext and 
-        /// is used to give the library enough information to allow the user 
-        /// to configure your application. The registered callback is called when the user 
-        /// clicks the “Configure…” button in the LCDMon list of applications.
-        /// </summary>
-		[StructLayout(LayoutKind.Sequential)]
-        public struct lgLcdConfigureContext
-        {
-            /// <summary>
-            /// Specifies a pointer to a function that should be called when the 
-            /// user wants to configure your application. If no configuration panel 
-            /// is provided or needed, leave this parameter NULL.
-            /// </summary>
-			public lgLcdOnConfigureCB configCallback;
-            /// <summary>
-            /// Specifies an arbitrary context value of the application that is passed
-            /// back to the client in the event that the registered configCallback 
-            /// function is invoked.
-            /// </summary>
-			public IntPtr configContext;
-        }
-
-        /// <summary>
-        /// The lgLcdConnectContext contains all the information that is needed to 
-        /// connect your application to LCDMon through lgLcdConnect(). Upon successful connection, 
-        /// it also contains the connection handle that has to be used in subsequent calls to 
-        /// lgLcdEnumerate() and lgLcdOpen().
-        /// </summary>
-		[StructLayout(LayoutKind.Sequential)]
-        public struct lgLcdConnectContext
-        {
-            /// <summary>
-            /// Specifies a string that contains the “friendly name” of your application. 
-            /// This name is presented to the user whenever a list of applications is shown.
-            /// </summary>
-			public string appFriendlyName;
-            /// <summary>
-            /// Specifies whether your connection is temporary (.isPersistent = FALSE) or 
-            /// whether it is a regular connection that should be added to the list 
-            /// (.isPersistent = TRUE).
-            /// </summary>
-			public bool isPersistent;
-            /// <summary>
-            /// Specifies whether your application can be started by LCDMon or not.
-            /// </summary>
-			public bool isAutostartable;
-            /// <summary>
-            /// Specifies context that is necessary to call back for configuration of 
-            /// your application. See lgLcdConfigureContext for more details.
-            /// </summary>
-			public lgLcdConfigureContext onConfigure;
-            /// <summary>
-            /// Upon successful connection, this member holds the “connection handle” 
-            /// which is used in subsequent calls to lgLcdEnumerate() and lgLcdOpen(). 
-            /// A value of LGLCD_INVALID_CONNECTION denotes an invalid connection.
-            /// </summary>
-			public int connection;
-        }
-
-        /// <summary>
-        /// The lgLcdSoftbuttonsChangedContext is part of the lgLcdOpenContext and 
-        /// is used to give the library enough information to allow changes in the 
-        /// state of the soft buttons to be signaled into the calling application 
-        /// through a callback.
-        /// </summary>
-        [StructLayout(LayoutKind.Sequential)]
-        public struct lgLcdSoftbuttonsChangedContext
-        {
-            /// <summary>
-            /// Specifies a pointer to a function that should be called when the 
-            /// state of the soft buttons changes. If no notification is needed, 
-            /// leave this parameter NULL.
-            /// </summary>
-			public lgLcdOnSoftButtonsCB softbuttonsChangedCallback;
-            /// <summary>
-            /// Specifies an arbitrary context value of the application that is 
-            /// passed back to the client in the event that soft buttons are being 
-            /// pressed or released. The new value of the soft buttons is reported 
-            /// in the dwButtons parameter of the callback function.
-            /// </summary>
-            public IntPtr softbuttonsChangedContext;
-        }
-
-        /// <summary>
-        /// The lgLcdOpenContext contains all the information that is needed to open 
-        /// a specified LCD display through lgLcdOpen(). Upon successful completion 
-        /// of the open it contains the device handle that has to be used in subsequent 
-        /// calls to lgLcdReadSoftButtons(), lgLcdUpdateBitmap() and lgLcdClose().
-        /// </summary>
-		[StructLayout(LayoutKind.Sequential)]
-        public struct lgLcdOpenContext
-        {
-            /// <summary>
-            /// Specifies the connection (previously opened through lgLcdConnect()) which 
-            /// this lgLcdOpen() call is for.
-            /// </summary>
-			public int connection;
-            /// <summary>
-            /// Specifies the index of the device to open (see lgLcdEnumerate() for details).
-            /// </summary>
-			public int index;
-            /// <summary>
-            /// Specifies the details for the callback function that should be invoked when
-            /// device has changes in its soft button status, i.e. the user has pressed or
-            /// a soft button. For details, see lgLcdSoftbuttonsChangedContext.
-            /// </summary>
-			public lgLcdSoftbuttonsChangedContext onSoftbuttonsChanged;
-            /// <summary>
-            /// Upon successful opening, this member holds the device handle which is used 
-            /// in subsequent calls to lgLcdReadSoftButtons(), lgLcdUpdateBitmap() and 
-            /// lgLcdClose(). A value of LGLCD_INVALID_DEVICE denotes an invalid device.
-            /// </summary>
-			public int device;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="priority"></param>
-        /// <returns></returns>
-		public static uint LGLCD_SYNC_UPDATE(uint priority) { return 0x80000000 | priority; }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="priority"></param>
-        /// <returns></returns>
-		public static uint LGLCD_ASYNC_UPDATE(uint priority) { return priority; }
+        #region LCD Funcs
 
         [DllImport("LogitechLcdEnginesWrapper", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         public static extern bool LogiLcdInit(String friendlyName, int lcdType);
@@ -243,11 +37,204 @@ namespace LgLcdG13.Adapter
         [DllImport("LogitechLcdEnginesWrapper", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         public static extern void LogiLcdShutdown();
 
-        // Monochrome LCD functions 
-        [DllImport("LogitechLcdEnginesWrapper", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)] 
+        // Monochrome LCD functions
+        [DllImport("LogitechLcdEnginesWrapper", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         public static extern bool LogiLcdMonoSetBackground(byte[] monoBitmap);
 
         [DllImport("LogitechLcdEnginesWrapper", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         public static extern bool LogiLcdMonoSetText(int lineNumber, String text);
+
+        #endregion LCD Funcs
+    }
+
+    public static class LedProxy
+    {
+        //LED SDK
+        private const int LOGI_DEVICETYPE_MONOCHROME_ORD = 0;
+
+        private const int LOGI_DEVICETYPE_RGB_ORD = 1;
+        private const int LOGI_DEVICETYPE_PERKEY_RGB_ORD = 2;
+
+        public const int LOGI_DEVICETYPE_MONOCHROME = (1 << LOGI_DEVICETYPE_MONOCHROME_ORD);
+        public const int LOGI_DEVICETYPE_RGB = (1 << LOGI_DEVICETYPE_RGB_ORD);
+        public const int LOGI_DEVICETYPE_PERKEY_RGB = (1 << LOGI_DEVICETYPE_PERKEY_RGB_ORD);
+        public const int LOGI_LED_BITMAP_WIDTH = 21;
+        public const int LOGI_LED_BITMAP_HEIGHT = 6;
+        public const int LOGI_LED_BITMAP_BYTES_PER_KEY = 4;
+
+        public const int LOGI_LED_BITMAP_SIZE = LOGI_LED_BITMAP_WIDTH * LOGI_LED_BITMAP_HEIGHT * LOGI_LED_BITMAP_BYTES_PER_KEY;
+        public const int LOGI_LED_DURATION_INFINITE = 0;
+
+        [DllImport("LogitechLedEnginesWrapper", CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool LogiLedInit();
+
+        [DllImport("LogitechLedEnginesWrapper", CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool LogiLedSetTargetDevice(int targetDevice);
+
+        [DllImport("LogitechLedEnginesWrapper", CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool LogiLedGetSdkVersion(ref int majorNum, ref int minorNum, ref int buildNum);
+
+        [DllImport("LogitechLedEnginesWrapper", CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool LogiLedSaveCurrentLighting();
+
+        [DllImport("LogitechLedEnginesWrapper", CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool LogiLedSetLighting(int redPercentage, int greenPercentage, int bluePercentage);
+
+        [DllImport("LogitechLedEnginesWrapper", CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool LogiLedRestoreLighting();
+
+        [DllImport("LogitechLedEnginesWrapper", CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool LogiLedFlashLighting(int redPercentage, int greenPercentage, int bluePercentage, int milliSecondsDuration, int milliSecondsInterval);
+
+        [DllImport("LogitechLedEnginesWrapper", CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool LogiLedPulseLighting(int redPercentage, int greenPercentage, int bluePercentage, int milliSecondsDuration, int milliSecondsInterval);
+
+        [DllImport("LogitechLedEnginesWrapper", CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool LogiLedStopEffects();
+
+        [DllImport("LogitechLedEnginesWrapper", CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool LogiLedSetLightingFromBitmap(byte[] bitmap);
+
+        [DllImport("LogitechLedEnginesWrapper", CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool LogiLedSetLightingForKeyWithScanCode(int keyCode, int redPercentage, int greenPercentage, int bluePercentage);
+
+        [DllImport("LogitechLedEnginesWrapper", CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool LogiLedSetLightingForKeyWithHidCode(int keyCode, int redPercentage, int greenPercentage, int bluePercentage);
+
+        [DllImport("LogitechLedEnginesWrapper", CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool LogiLedSetLightingForKeyWithQuartzCode(int keyCode, int redPercentage, int greenPercentage, int bluePercentage);
+
+        [DllImport("LogitechLedEnginesWrapper", CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool LogiLedSetLightingForKeyWithKeyName(keyboardNames keyCode, int redPercentage, int greenPercentage, int bluePercentage);
+
+        [DllImport("LogitechLedEnginesWrapper", CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool LogiLedSaveLightingForKey(keyboardNames keyName);
+
+        [DllImport("LogitechLedEnginesWrapper", CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool LogiLedRestoreLightingForKey(keyboardNames keyName);
+
+        [DllImport("LogitechLedEnginesWrapper", CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool LogiLedFlashSingleKey(keyboardNames keyName, int redPercentage, int greenPercentage, int bluePercentage, int msDuration, int msInterval);
+
+        [DllImport("LogitechLedEnginesWrapper", CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool LogiLedPulseSingleKey(keyboardNames keyName, int startRedPercentage, int startGreenPercentage, int startBluePercentage, int finishRedPercentage, int finishGreenPercentage, int finishBluePercentage, int msDuration, bool isInfinite);
+
+        [DllImport("LogitechLedEnginesWrapper", CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool LogiLedStopEffectsOnKey(keyboardNames keyName);
+
+        [DllImport("LogitechLedEnginesWrapper", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void LogiLedShutdown();
+
+        #region keyboardEnum
+
+        public enum keyboardNames
+        {
+            ESC = 0x01,
+            F1 = 0x3b,
+            F2 = 0x3c,
+            F3 = 0x3d,
+            F4 = 0x3e,
+            F5 = 0x3f,
+            F6 = 0x40,
+            F7 = 0x41,
+            F8 = 0x42,
+            F9 = 0x43,
+            F10 = 0x44,
+            F11 = 0x57,
+            F12 = 0x58,
+            PRINT_SCREEN = 0x137,
+            SCROLL_LOCK = 0x46,
+            PAUSE_BREAK = 0x45,
+            TILDE = 0x29,
+            ONE = 0x02,
+            TWO = 0x03,
+            THREE = 0x04,
+            FOUR = 0x05,
+            FIVE = 0x06,
+            SIX = 0x07,
+            SEVEN = 0x08,
+            EIGHT = 0x09,
+            NINE = 0x0A,
+            ZERO = 0x0B,
+            MINUS = 0x0C,
+            EQUALS = 0x0D,
+            BACKSPACE = 0x0E,
+            INSERT = 0x152,
+            HOME = 0x147,
+            PAGE_UP = 0x149,
+            NUM_LOCK = 0x145,
+            NUM_SLASH = 0x135,
+            NUM_ASTERISK = 0x37,
+            NUM_MINUS = 0x4A,
+            TAB = 0x0F,
+            Q = 0x10,
+            W = 0x11,
+            E = 0x12,
+            R = 0x13,
+            T = 0x14,
+            Y = 0x15,
+            U = 0x16,
+            I = 0x17,
+            O = 0x18,
+            P = 0x19,
+            OPEN_BRACKET = 0x1A,
+            CLOSE_BRACKET = 0x1B,
+            BACKSLASH = 0x2B,
+            KEYBOARD_DELETE = 0x153,
+            END = 0x14F,
+            PAGE_DOWN = 0x151,
+            NUM_SEVEN = 0x47,
+            NUM_EIGHT = 0x48,
+            NUM_NINE = 0x49,
+            NUM_PLUS = 0x4E,
+            CAPS_LOCK = 0x3A,
+            A = 0x1E,
+            S = 0x1F,
+            D = 0x20,
+            F = 0x21,
+            G = 0x22,
+            H = 0x23,
+            J = 0x24,
+            K = 0x25,
+            L = 0x26,
+            SEMICOLON = 0x27,
+            APOSTROPHE = 0x28,
+            ENTER = 0x1C,
+            NUM_FOUR = 0x4B,
+            NUM_FIVE = 0x4C,
+            NUM_SIX = 0x4D,
+            LEFT_SHIFT = 0x2A,
+            Z = 0x2C,
+            X = 0x2D,
+            C = 0x2E,
+            V = 0x2F,
+            B = 0x30,
+            N = 0x31,
+            M = 0x32,
+            COMMA = 0x33,
+            PERIOD = 0x34,
+            FORWARD_SLASH = 0x35,
+            RIGHT_SHIFT = 0x36,
+            ARROW_UP = 0x148,
+            NUM_ONE = 0x4F,
+            NUM_TWO = 0x50,
+            NUM_THREE = 0x51,
+            NUM_ENTER = 0x11C,
+            LEFT_CONTROL = 0x1D,
+            LEFT_WINDOWS = 0x15B,
+            LEFT_ALT = 0x38,
+            SPACE = 0x39,
+            RIGHT_ALT = 0x138,
+            RIGHT_WINDOWS = 0x15C,
+            APPLICATION_SELECT = 0x15D,
+            RIGHT_CONTROL = 0x11D,
+            ARROW_LEFT = 0x14B,
+            ARROW_DOWN = 0x150,
+            ARROW_RIGHT = 0x14D,
+            NUM_ZERO = 0x52,
+            NUM_PERIOD = 0x53,
+        };
+
+        #endregion keyboardEnum
     }
 }

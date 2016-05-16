@@ -20,8 +20,8 @@ namespace LgLcd.Adapter.Test
 
             var connection = new Connection();
             var success = connection.Success;
-            Proxy.LogiLcdMonoSetText(0, "this is a test");
-            Proxy.LogiLcdUpdate();
+            LcdProxy.LogiLcdMonoSetText(0, "this is a test");
+            LcdProxy.LogiLcdUpdate();
 
             Console.WriteLine(success);
 
