@@ -21,12 +21,35 @@ namespace LgLcd13.Instruments
         }
         public bool RunTest()
         {
-            var scheme1 = Properties.Settings.Default.Panel1;
-            var panel = InstrumentBuilder.CreateInstrumentPanel(scheme1);
+            var scheme1 =Settings.Panel1;
+            Panel_One = InstrumentBuilder.CreateInstrumentPanel(scheme1);
+            CurrentPanel = Panel_One;
+
+            var scheme2 = Settings.Panel2;
+            Panel_Two = InstrumentBuilder.CreateInstrumentPanel(scheme2);
 
             SetLcdButtons();
             G13Device.SaveCurrentLighting();
-            for (var i = 0; i <= Properties.Settings.Default.TestCount; i++)
+            for (var i = 0; i <= Settings.TestCount; i++)
+            {
+
+                UpdateInstrumentPanelData(CurrentPanel, i);
+                Thread.Sleep(Settings.RefreshInterval);
+                G13Device.CheckButtons();
+                UpdatePanelDisplay(CurrentPanel);
+                
+            }
+
+            return true;
+        }
+
+        public InstrumentPanel CurrentPanel { get; set; }
+        public InstrumentPanel Panel_One { get; set; }
+        public InstrumentPanel Panel_Two { get; set; }
+
+        public bool UpdateInstrumentPanelData(InstrumentPanel panel, int i)
+        {
+            try
             {
                 foreach (var line in panel.InstrumentLines)
                 {
@@ -35,14 +58,14 @@ namespace LgLcd13.Instruments
                         line.Data[counter] = i;
                     }
                 }
-                
-                Thread.Sleep(Properties.Settings.Default.RefreshInterval);
-                G13Device.CheckButtons();
-                UpdatePanelDisplay(panel);
-                
+                return true;
             }
+            catch (Exception)
+            {
 
-            return true;
+                return false;
+            }
+            
         }
 
         public bool UpdatePanelDisplay(InstrumentPanel panel)
@@ -87,13 +110,13 @@ namespace LgLcd13.Instruments
 
         public void BlueLedFlashEffect()
         {
-            var color = new Color(0, 0, 100);
+            var color = new Color(0, 0, 75);
             G13Device.LedEffect(color, EffectType.FLASH, Settings.GreenFlashLength, Settings.GreenFlashInterval);
         }
 
         public void BlueLedPulseEffect()
         {
-            var color = new Color(0, 0, 100);
+            var color = new Color(0, 0, 75);
             G13Device.LedEffect(color, EffectType.PULSE, Settings.BluePulseLength, Settings.BluePulseInterval);
         }
 
@@ -104,10 +127,20 @@ namespace LgLcd13.Instruments
                 RedLedFlashEffect();
                 return 1;
             });
+            G13Device.ButtonHandlers[Constants.LOGI_LCD_MONO_BUTTON_0].Add(() =>
+            {
+                CurrentPanel = Panel_One;
+                return 1;
+            });
 
             G13Device.ButtonHandlers[Constants.LOGI_LCD_MONO_BUTTON_1].Add(() =>
             {
                 GreenLedFlashEffect();
+                return 1;
+            });
+            G13Device.ButtonHandlers[Constants.LOGI_LCD_MONO_BUTTON_1].Add(() =>
+            {
+                CurrentPanel = Panel_Two;
                 return 1;
             });
 

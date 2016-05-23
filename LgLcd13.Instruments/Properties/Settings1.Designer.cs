@@ -35,7 +35,7 @@ namespace LgLcd13.Instruments.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Something goes here")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Something goes here;;;")]
         public string Panel2 {
             get {
                 return ((string)(this["Panel2"]));
@@ -129,6 +129,24 @@ namespace LgLcd13.Instruments.Properties {
         public int BluePulseLength {
             get {
                 return ((int)(this["BluePulseLength"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(";;;")]
+        public string Panel3 {
+            get {
+                return ((string)(this["Panel3"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(";;;")]
+        public string Panel4 {
+            get {
+                return ((string)(this["Panel4"]));
             }
         }
     }
