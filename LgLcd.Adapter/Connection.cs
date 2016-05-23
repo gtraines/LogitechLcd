@@ -16,8 +16,13 @@ namespace LgLcdG13.Adapter
         {
             AppFriendlyName = appFriendlyName;
             
-            LcdProxy.LogiLcdInit(AppFriendlyName, LcdProxy.LOGI_LCD_TYPE_MONO);
-            Success = LcdProxy.LogiLcdIsConnected(LcdProxy.LOGI_LCD_TYPE_MONO);
+            LcdProxy.LogiLcdInit(AppFriendlyName, Constants.LOGI_LCD_TYPE_MONO);
+            Success = LcdProxy.LogiLcdIsConnected(Constants.LOGI_LCD_TYPE_MONO);
+            if (Success)
+            {
+                LedSuccess = LedProxy.LogiLedInit();
+            }
+            
 
         }
 
@@ -26,31 +31,5 @@ namespace LgLcdG13.Adapter
         public bool Success { get; set; }
 
         public bool LedSuccess { get; set; }
-
-
-        public static async Task BlueLedEffect(int effectLength)
-        {
-
-            var countdown = new Stopwatch();
-            LedProxy.LogiLedPulseLighting(0, 100, 0, effectLength, 200);
-            countdown.Start();
-            while (countdown.ElapsedMilliseconds < effectLength)
-            {
-                
-            }
-        }
-
-        public static async Task RedLedEffect(int effectLength)
-        {
-
-            var countdown = new Stopwatch();
-            LedProxy.LogiLedFlashLighting(0, 100, 0, effectLength, 100);
-            countdown.Start();
-            while (countdown.ElapsedMilliseconds < effectLength)
-            {
-
-            }
-
-        }
     }
 }

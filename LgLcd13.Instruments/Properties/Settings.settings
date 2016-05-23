@@ -9,10 +9,34 @@
       <Value Profile="(Default)">Something goes here</Value>
     </Setting>
     <Setting Name="RefreshInterval" Type="System.Int32" Scope="Application">
-      <Value Profile="(Default)">300</Value>
+      <Value Profile="(Default)">160</Value>
     </Setting>
     <Setting Name="TestCount" Type="System.Int32" Scope="Application">
-      <Value Profile="(Default)">270</Value>
+      <Value Profile="(Default)">999</Value>
+    </Setting>
+    <Setting Name="RedFlashInterval" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">200</Value>
+    </Setting>
+    <Setting Name="RedFlashLength" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">3000</Value>
+    </Setting>
+    <Setting Name="GreenFlashInterval" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">200</Value>
+    </Setting>
+    <Setting Name="GreenFlashLength" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">3000</Value>
+    </Setting>
+    <Setting Name="BlueFlashInterval" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">200</Value>
+    </Setting>
+    <Setting Name="BlueFlashLength" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">3000</Value>
+    </Setting>
+    <Setting Name="BluePulseInterval" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">400</Value>
+    </Setting>
+    <Setting Name="BluePulseLength" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">4000</Value>
     </Setting>
   </Settings>
 </SettingsFile>

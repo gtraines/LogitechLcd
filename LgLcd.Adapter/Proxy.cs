@@ -11,15 +11,6 @@ namespace LgLcdG13.Adapter
     public static class LcdProxy
     {
         //LCD SDK
-        public const int LOGI_LCD_MONO_BUTTON_0 = (0x00000001);
-
-        public const int LOGI_LCD_MONO_BUTTON_1 = (0x00000002);
-        public const int LOGI_LCD_MONO_BUTTON_2 = (0x00000004);
-        public const int LOGI_LCD_MONO_BUTTON_3 = (0x00000008);
-        public const int LOGI_LCD_MONO_WIDTH = 160;
-        public const int LOGI_LCD_MONO_HEIGHT = 43;
-        public const int LOGI_LCD_TYPE_MONO = (0x00000001);
-
         #region LCD Funcs
 
         [DllImport("LogitechLcdEnginesWrapper", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
@@ -49,6 +40,7 @@ namespace LgLcdG13.Adapter
 
     public static class LedProxy
     {
+
         //LED SDK
         private const int LOGI_DEVICETYPE_MONOCHROME_ORD = 0;
 

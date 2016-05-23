@@ -45,6 +45,7 @@
     <Compile Include="Connection.cs" />
     <Compile Include="G13Device.cs" />
     <Compile Include="Display.cs" />
+    <Compile Include="Models.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proxy.cs" />
   </ItemGroup>

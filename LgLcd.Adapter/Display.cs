@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace LgLcdG13.Adapter
 {
@@ -12,7 +14,7 @@ namespace LgLcdG13.Adapter
         {
             byte[] monochromePixels = new byte[bitmap.Length / 4];
 
-            for (int ii = 0; ii < (int)(LcdProxy.LOGI_LCD_MONO_HEIGHT) * (int)LcdProxy.LOGI_LCD_MONO_WIDTH; ii++)
+            for (int ii = 0; ii < (int)(Constants.LOGI_LCD_MONO_HEIGHT) * (int)Constants.LOGI_LCD_MONO_WIDTH; ii++)
             {
                 monochromePixels[ii] = bitmap[ii * 4];
             }
@@ -37,6 +39,50 @@ namespace LgLcdG13.Adapter
                     
                 return false;
             }
+        }
+
+
+        public void LedEffect(Color color, EffectType effectType, int effectLength, int effectInterval)
+        {
+            LedProxy.LogiLedStopEffects();
+            Thread.Sleep(100);
+            LedProxy.LogiLedSetLighting(Constants.DEFAULT_RED_PCT, Constants.DEFAULT_GREEN_PCT, Constants.DEFAULT_BLUE_PCT);
+            Thread.Sleep(100);
+
+            switch (effectType)
+            {
+                case (EffectType.FLASH):
+                    LedProxy
+                        .LogiLedFlashLighting(
+                            color.Red, 
+                            color.Green, 
+                            color.Blue, 
+                            effectLength, 
+                            effectInterval);
+                    break;
+                case (EffectType.PULSE):
+                    LedProxy
+                        .LogiLedPulseLighting(
+                            color.Red, 
+                            color.Green, 
+                            color.Blue, 
+                            effectLength, 
+                            effectInterval);
+                    break;
+            }
+
+            Task.Run(() => ResetLightingAfterEffect(effectLength));
+        }
+
+        public async Task ResetLightingAfterEffect(int effectLength)
+        {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            while (stopwatch.ElapsedMilliseconds < effectLength)
+            {
+                Thread.Sleep(50);
+            }
+            LedProxy.LogiLedSetLighting(Constants.DEFAULT_RED_PCT, Constants.DEFAULT_GREEN_PCT, Constants.DEFAULT_BLUE_PCT);
         }
     }
 }
