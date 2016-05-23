@@ -134,7 +134,7 @@ namespace LgLcd13.Instruments.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(";;;")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Panel 3; ; ;")]
         public string Panel3 {
             get {
                 return ((string)(this["Panel3"]));
@@ -143,7 +143,7 @@ namespace LgLcd13.Instruments.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(";;;")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Panel 4; ; ;")]
         public string Panel4 {
             get {
                 return ((string)(this["Panel4"]));
